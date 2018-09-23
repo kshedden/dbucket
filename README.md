@@ -1,3 +1,5 @@
+[Godoc documentation](https://godoc.org/github.com/kshedden/dbucket) for dbucket
+
  __dbucket__ is a simple data container file format, and a Go libary
  for reading and writing the files.  It can be used in Go programs
  that manipulate rectangular arrays of data.  A typical use-case would
