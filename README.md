@@ -8,7 +8,7 @@
  "data frames".
 
 Dbucket has somewhat similar goals as [Apache
- Orc](https://orc.apache.org/), but is considerably simpler, and
+ Orc](https://orc.apache.org/), but is considerably simpler, and is
  specific to Go, as it uses
  [gobs](https://blog.golang.org/gobs-of-data) and some other
  Go-specific data formats.
@@ -30,3 +30,39 @@ On-disk, the primary data and meta-data are serialized as Go gobs,
 which are compressed using gzip.  Strings are dictionary-coded, and it
 is possible to retrieve either the original string values, or the
 uint64 codes and the mapping from strings to codes.
+
+__Example__
+
+The following example creates a dbucket file on disk named "data.dbk".
+
+```
+f, _ := os.Create("data.dbk")
+b := NewFileBuilder(f)
+
+b.NewFloat64("x")
+b.NewString("y")
+
+// Write a stripe containing three rows
+b.StartStripe()
+b.AppendFloat64("x", []float64{34, 1, 67})
+b.AppendString4("y", []string{"cat", "dog", "mouse"})
+
+// Write a stripe containing two rows
+b.StartStripe()
+b.AppendFloat64("x", []float64{-89, 13})
+b.AppendString4("y", []string{"goat", "horse"})
+
+b.Close()
+f.Close()
+```
+
+The next example reads data from the dbucket file created above.
+
+```
+f, _ := os.Open("data.dbk")
+r := NewFileReader(f)
+
+// Read the first stripe
+x := r.ReadFloat64("x", 0)
+y := r.ReadFloat64("y", 0)
+```

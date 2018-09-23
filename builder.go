@@ -11,7 +11,7 @@ import (
 	"github.com/Workiva/go-datastructures/bitarray"
 )
 
-// Builder supports construction of a Dbucket from a striped array.
+// Builder supports construction of a Dbucket.
 type Builder struct {
 
 	// Information about the Dbucket being constructed

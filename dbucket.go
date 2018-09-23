@@ -11,8 +11,8 @@ String values are dictionary-compressed.
 
 package dbucket
 
-// A fixed width data type that can be the storage format of the data in one column
-// of the array.
+// A data type that can be the storage format of the data in one column
+// of the dbucket.
 type DType uint8
 
 const (

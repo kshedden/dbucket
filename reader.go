@@ -82,6 +82,7 @@ func (r *Reader) readFooter() {
 	r.info.DictsRev = make(map[string]map[uint64]string)
 }
 
+// NumStripes returns the number of stripes in the dbucket.
 func (r *Reader) NumStripes() int {
 	if len(r.info.Names) == 0 {
 		return 0
