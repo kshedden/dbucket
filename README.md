@@ -25,8 +25,10 @@ The array is partitioned into "stripes" of contiguous rows.  On-disk,
 the data for one stripe of a column are stored column-wise, i.e. it is
 a "columnar storage" format.  The data can be accessed in a random
 access manner, retrieving the data for one variable in one stripe with
-a single function call.  The data are returned as a native Go array,
-e.g. []float32.
+a single function call.  The data are returned as a typed slice of
+go values, e.g. []float32 or []time.Time (the exception to this is
+bit arrays, which are returned as a [https://godoc.org/github.com/Workiva/go-datastructures/bitarray](bitarray.BitArray)
+value).
 
 On-disk, the primary data and meta-data are serialized as Go gobs,
 which are compressed using gzip.  Strings are dictionary-coded, and it
