@@ -37,20 +37,24 @@ The following example creates a dbucket file on disk named "data.dbk".
 
 ```
 f, _ := os.Create("data.dbk")
-b := NewFileBuilder(f)
+b := dbucket.NewFileBuilder(f)
 
+// Create a new column with name "x", the data will be float64's.
 b.NewFloat64("x")
-b.NewString("y")
+
+// "animals" defines a code set (mapping from strings to uint64 codes)
+// that can be shared by several columns.
+b.NewString("y", "animals")
 
 // Write a stripe containing three rows
 b.StartStripe()
 b.AppendFloat64("x", []float64{34, 1, 67})
-b.AppendString4("y", []string{"cat", "dog", "mouse"})
+b.AppendString("y", []string{"cat", "dog", "mouse"})
 
 // Write a stripe containing two rows
 b.StartStripe()
 b.AppendFloat64("x", []float64{-89, 13})
-b.AppendString4("y", []string{"goat", "horse"})
+b.AppendString("y", []string{"goat", "horse"})
 
 b.Close()
 f.Close()
@@ -60,9 +64,9 @@ The next example reads data from the dbucket file created above.
 
 ```
 f, _ := os.Open("data.dbk")
-r := NewFileReader(f)
+r := dbucket.NewFileReader(f)
 
 // Read the first stripe
 x := r.ReadFloat64("x", 0)
-y := r.ReadFloat64("y", 0)
+y := r.ReadString("y", 0)
 ```
