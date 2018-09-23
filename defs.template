@@ -1,0 +1,117 @@
+package dbucket
+
+import (
+    "fmt"
+    "io"
+    "compress/gzip"
+    "encoding/gob"
+    "time"
+)
+
+{{- range . }}
+    // Read{{ .TypeU }} obtains an array of {{ .TypeL }} values stored for variable 'name' in
+    // the given stripe.
+    func (r *Reader) Read{{- .TypeU }}(name string, stripe int) []{{- .TypeL }} {
+
+	    p, ok := r.info.Pos[name]
+    	if !ok {
+	    	msg := fmt.Sprintf("Variable %s not found.\n", name)
+		    panic(msg)
+	    }
+
+		if r.info.Dtypes[p] != {{ .TypeU }} {
+			msg := fmt.Sprintf("Variable %s oes noto have type {{ .TypeL }}, cannot use Read{{- .TypeU }} to access it.\n", name)
+			panic(msg)
+		}
+
+    	if stripe >= len(r.info.Offsets[0]) {
+		    m := len(r.info.Offsets[0])
+		    msg := fmt.Sprintf("The dbucket contains %d stripes, cannot access stripe location %d\n", m, stripe)
+		    panic(msg)
+	    }
+
+	    _, err := r.f.Seek(int64(r.info.Offsets[p][stripe]), io.SeekStart)
+	    if err != nil {
+		    panic(err)
+	    }
+
+    	gz, err := gzip.NewReader(r.r)
+	    if err != nil {
+		    panic(err)
+	    }
+        defer gz.Close()
+
+        dec := gob.NewDecoder(gz)
+
+        var x []{{- .TypeL }}
+        err = dec.Decode(&x)
+        if err != nil {
+        	panic(err)
+        }
+
+    	return x
+    }
+{{ end }}
+
+{{- range . }}
+    // New{{- .TypeU }}64 creates a new variable in the Dbucket with the given name.  It
+    // will hold {{ .TypeL }}64 data values.
+    func (b *Builder) New{{- .TypeU }}(name string) {
+
+	    if _, ok := b.info.Pos[name]; !ok {
+    		p := len(b.info.Pos)
+	    	b.info.Names = append(b.info.Names, name)
+	    	b.info.Pos[name] = p
+	    	b.info.Dtypes = append(b.info.Dtypes, {{ .TypeU }})
+	    	var x, y []uint64
+    		b.info.Offsets = append(b.info.Offsets, x)
+    		b.info.Sizes = append(b.info.Sizes, y)
+    	} else {
+    		msg := fmt.Sprintf("Name '%s' already exists\n", name)
+    		panic(msg)
+    	}
+    }
+{{ end }}
+
+{{ range . }}
+    // Append{{- .TypeU }} adds a stripe of data for the given variable.  The variable
+    // must contain {{ .TypeL }} data values.
+    func (b *Builder) Append{{- .TypeU }}(name string, data []{{- .TypeL }}) {
+
+	    p, ok := b.info.Pos[name]
+        if !ok {
+            msg := fmt.Sprintf("Variable %s not found.", name)
+        	panic(msg)
+        }
+
+    	if b.firstVar {
+	    	b.info.Rows = append(b.info.Rows, uint64(len(data)))
+	    } else {
+		    m := b.info.Rows[len(b.info.Rows)-1]
+	    	if int(m) != len(data) {
+	    		msg := fmt.Sprintf("Invalid number of values in variable %s, expected %d, found %d.",
+	    			name, m, len(data))
+	    		panic(msg)
+	    	}
+	    }
+
+    	start := b.currentPosition()
+    	gz := gzip.NewWriter(b.w)
+        enc := gob.NewEncoder(gz)
+
+		err := enc.Encode(data)
+		if err != nil {
+			panic(err)
+		}
+
+        gz.Close()
+    	end := b.currentPosition()
+
+    	b.info.Offsets[p] = append(b.info.Offsets[p], uint64(start))
+    	b.info.Sizes[p] = append(b.info.Sizes[p], uint64(end-start))
+
+    	b.written[p] = true
+    	b.firstVar = false
+    }
+{{ end }}
+
