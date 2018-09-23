@@ -1,19 +1,21 @@
 [Godoc documentation](https://godoc.org/github.com/kshedden/dbucket) for dbucket
 
- __dbucket__ is a simple data container file format, and a Go libary
- for reading and writing the files.  It can be used in Go programs
- that manipulate rectangular arrays of data.  A typical use-case would
- be to maintain a large (e.g. 200GB) data array on disk in the dbucket
- format.  The data can then be processed "stripe by stripe" using a Go
- program.  It is essentially a very simple "write once read many
- times" database, aiming primarily for the use-case of working with
- "data frames".
+__dbucket__ is a simple data container file format, and a Go libary
+for reading and writing dbucket files.  It can be used in Go programs
+that manipulate rectangular arrays of data.  A typical use-case would
+be to maintain a large (e.g. 100's of GB) data array on disk in the dbucket
+format.  The data can then be processed "stripe by stripe" using a Go
+program.  The stripes are used to limit the amount of data that are read
+into main memory at once.  dbucket is essentially a very simple "write once
+read many times" database, aiming primarily for the use-case of working with
+"data frames".
 
 Dbucket has somewhat similar goals as [Apache
- Orc](https://orc.apache.org/), but is considerably simpler, and is
- specific to Go, as it uses
- [gobs](https://blog.golang.org/gobs-of-data) and some other
- Go-specific data formats.
+Orc](https://orc.apache.org/), but is considerably simpler, and is
+specific to Go, as it uses
+[gobs](https://blog.golang.org/gobs-of-data) and some other
+Go-specific data formats.  It is obviously somewhat less performant
+than mature projects such as Orc.
 
 A dbucket file holds a data array with n rows and p columns of data.
 Each column of the array has a data type, and all the values within a
@@ -30,10 +32,14 @@ go values, e.g. []float32 or []time.Time (the exception to this is
 bit arrays, which are returned as a [bitarray.BitArray](https://godoc.org/github.com/Workiva/go-datastructures/bitarray)
 value).
 
-On-disk, the primary data and meta-data are serialized as Go gobs,
-which are compressed using gzip.  Strings are dictionary-coded, and it
+On-disk, the data and meta-data are serialized as Go gobs,
+which are compressed using gzip (compression is invisible to the user, but
+results in smaller file size).  Strings are dictionary-coded, and it
 is possible to retrieve either the original string values, or the
 uint64 codes and the mapping from strings to codes.
+
+Dbucket is not currently "zero copy", but could possibly be made so without
+a great deal of effort.
 
 __Example__
 
