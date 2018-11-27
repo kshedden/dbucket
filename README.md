@@ -34,7 +34,7 @@ value).
 
 On-disk, the data and meta-data are serialized as Go gobs,
 which are compressed using gzip (compression is invisible to the user, but
-results in smaller file size).  Strings are dictionary-coded, and it
+results in a smaller file size).  Strings are dictionary-coded, and it
 is possible to retrieve either the original string values, or the
 uint64 codes and the mapping from strings to codes.
 

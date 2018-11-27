@@ -54,6 +54,10 @@ func TestWriteReadFloat64(t *testing.T) {
 	}
 
 	r := NewFileReader(f)
+	names := r.Names()
+	if len(names) != 2 || names[0] != "x" || names[1] != "y" {
+		t.Fail()
+	}
 	for st := 0; st < numstripe; st++ {
 		x := r.ReadFloat64("x", st)
 		y := r.ReadFloat64("y", st)

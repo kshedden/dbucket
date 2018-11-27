@@ -15,12 +15,12 @@ import (
 
 	    p, ok := r.info.Pos[name]
     	if !ok {
-	    	msg := fmt.Sprintf("Variable %s not found.\n", name)
+	    	msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		    panic(msg)
 	    }
 
 		if r.info.Dtypes[p] != {{ .TypeU }} {
-			msg := fmt.Sprintf("Variable %s oes noto have type {{ .TypeL }}, cannot use Read{{- .TypeU }} to access it.\n", name)
+			msg := fmt.Sprintf("Variable '%s' does not have type {{ .TypeL }}, cannot use Read{{- .TypeU }} to access it.\n", name)
 			panic(msg)
 		}
 

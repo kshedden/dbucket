@@ -28,6 +28,11 @@ type Reader struct {
 	info *info
 }
 
+// Names returns the names of all variables in the dbucket.
+func (r *Reader) Names() []string {
+	return r.info.Names
+}
+
 func (r *Reader) readFooter() {
 
 	// Read the offset to the footer

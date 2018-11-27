@@ -16,12 +16,12 @@ func (r *Reader) ReadFloat64(name string, stripe int) []float64 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Float64 {
-		msg := fmt.Sprintf("Variable %s oes noto have type float64, cannot use ReadFloat64 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type float64, cannot use ReadFloat64 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -59,12 +59,12 @@ func (r *Reader) ReadFloat32(name string, stripe int) []float32 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Float32 {
-		msg := fmt.Sprintf("Variable %s oes noto have type float32, cannot use ReadFloat32 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type float32, cannot use ReadFloat32 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -102,12 +102,12 @@ func (r *Reader) ReadUint64(name string, stripe int) []uint64 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Uint64 {
-		msg := fmt.Sprintf("Variable %s oes noto have type uint64, cannot use ReadUint64 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type uint64, cannot use ReadUint64 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -145,12 +145,12 @@ func (r *Reader) ReadUint32(name string, stripe int) []uint32 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Uint32 {
-		msg := fmt.Sprintf("Variable %s oes noto have type uint32, cannot use ReadUint32 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type uint32, cannot use ReadUint32 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -188,12 +188,12 @@ func (r *Reader) ReadUint16(name string, stripe int) []uint16 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Uint16 {
-		msg := fmt.Sprintf("Variable %s oes noto have type uint16, cannot use ReadUint16 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type uint16, cannot use ReadUint16 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -231,12 +231,12 @@ func (r *Reader) ReadUint8(name string, stripe int) []uint8 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Uint8 {
-		msg := fmt.Sprintf("Variable %s oes noto have type uint8, cannot use ReadUint8 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type uint8, cannot use ReadUint8 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -274,12 +274,12 @@ func (r *Reader) ReadInt64(name string, stripe int) []int64 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Int64 {
-		msg := fmt.Sprintf("Variable %s oes noto have type int64, cannot use ReadInt64 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type int64, cannot use ReadInt64 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -317,12 +317,12 @@ func (r *Reader) ReadInt32(name string, stripe int) []int32 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Int32 {
-		msg := fmt.Sprintf("Variable %s oes noto have type int32, cannot use ReadInt32 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type int32, cannot use ReadInt32 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -360,12 +360,12 @@ func (r *Reader) ReadInt16(name string, stripe int) []int16 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Int16 {
-		msg := fmt.Sprintf("Variable %s oes noto have type int16, cannot use ReadInt16 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type int16, cannot use ReadInt16 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -403,12 +403,12 @@ func (r *Reader) ReadInt8(name string, stripe int) []int8 {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Int8 {
-		msg := fmt.Sprintf("Variable %s oes noto have type int8, cannot use ReadInt8 to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type int8, cannot use ReadInt8 to access it.\n", name)
 		panic(msg)
 	}
 
@@ -446,12 +446,12 @@ func (r *Reader) ReadTime(name string, stripe int) []time.Time {
 
 	p, ok := r.info.Pos[name]
 	if !ok {
-		msg := fmt.Sprintf("Variable %s not found.\n", name)
+		msg := fmt.Sprintf("Variable '%s' not found.\n", name)
 		panic(msg)
 	}
 
 	if r.info.Dtypes[p] != Time {
-		msg := fmt.Sprintf("Variable %s oes noto have type time.Time, cannot use ReadTime to access it.\n", name)
+		msg := fmt.Sprintf("Variable '%s' does not have type time.Time, cannot use ReadTime to access it.\n", name)
 		panic(msg)
 	}
 
